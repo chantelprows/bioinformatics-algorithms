@@ -1,0 +1,35 @@
+def suffixTree(text):
+
+    def build(suff):
+        if len(suff) == 0:
+            return
+
+        pref = list(set([s[0] for s in suff]))
+        if len(pref) == len(suff):
+            for s in suff:
+                finalList.append(s)
+        else:
+            if len(pref) == 1:
+                for k in range(2, min([len(s) for s in suff])):
+                    ep = list(set([s[0:k] for s in suff]))
+                    if len(ep) == 1:
+                        pref = ep
+                    else:
+                        break
+
+            for p in pref:
+                subset = [s[len(pref[0]):] for s in suff if s[0:len(pref[0])] == p]
+                if len(subset) > 1:
+                    finalList.append(p)
+                    build(subset)
+                elif len(subset) == 1:
+                    finalList.append(p + subset[0])
+
+    finalList = []
+    build([text[i:] for i in range(len(text))])
+    return finalList
+
+
+finalList = suffixTree('GGTTTTGACGTACATGAATGTTCGATTCATCATAGCCACCTGTAGAGTAGCAACCAGCCCTGAGCTTGAAACACACCTAGACATCACATAGGGGCCATAGAGGCACAAGAATTGCTTAACACAGATCATGCATCCTCCGAGAGTTTAAGTACTACACAGTCAAACGGCGAGTGATGCTCCACATGAATTCTCCGTGCCTCCGGCTCTGAATCGGAAAGGGTATTCATTCGCCCCGGGTCAGACTGCGTAACGTTTCGGCGAGGAAAGGCCCCCTGGTGGACATGTGCTTGTCAAAGATCGTATGCGGTTCCAAGGACGAGGTGGGTGTACGATATGCGTTCTCGAACACTCTCCTCTTTAGACTCCCTCAATCAGAGTAAGAGCCTATCTATGGCCAAAACCGAGGAGTATGGTGGAGAGAGCACATTTTGCAGCGAGGATAGTTGCGTGCACTACTTGTTATTGAAGTCCGTTCACACCTCGGAGAGCCCGGGTTTTGTTACACCTGCTACAGTATAAGCAGAAGATGGAGGTCTTGTTCAAGTTGGATACGCACCAATAACCCTAGAGGGCGACTAACAAATTTTTGGCTATTATTTTTCGTGAGGTGTGCAACGCAGTTGACGCCATGTAGGCGGTTCGGATCGTGCTATGAAAATGTCCAGTAATTAGATTCCCATATCTCTATTAGCGGGATAATAGTGTATGAGGGACCGTATTAGCGGTAGGGTCTATGCATTTAATGTGTGGTGTGTACCGGTTCTGGCCGCAGATTTTGACTGCTTCCCGCACGGGTGGGGTTACTGGGAAGTGAGTCTAGCACCTTCCCCTTTAACTAGCAACCGTAAAGAGCATTCGACATTGGCTAGACAGATGTGCTGTACTGGTCTCTGTAAGTGGGTCCTGTGTGCTACGCAAGACGATTTAGCCCTGGACTTTTGAAATTTACCCTGCTCCTTC$')
+# for s in finalList:
+#     print(s)
